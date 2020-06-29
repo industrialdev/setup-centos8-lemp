@@ -1,5 +1,6 @@
 # MariaDB 10.5 CentOS repository list
 # http://downloads.mariadb.org/mariadb/repositories/
+# https://serverfault.com/questions/1016837/why-isnt-repository-priority-working-in-yum-dnf-in-centos-8
 [mariadb]
 name = MariaDB
 enabled=1
