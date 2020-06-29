@@ -6,7 +6,7 @@ sudo rpm -Uvh http://rpms.famillecollet.com/enterprise/remi-release-8.rpm
 sudo cp mariadb.repo /etc/yum.repos.d
 sudo rpm -Uvh http://nginx.org/packages/centos/8/x86_64/RPMS/nginx-1.18.0-1.el8.ngx.x86_64.rpm
 sudo yum -y module enable php:remi-7.4
-sudo yum install -y zip unzip git composer java-1.8.0-openjdk mariadb-server php php-fpm php-mysqlnd php-gd php-curl php-mbstring php-dom php-opcache php-soap --enablerepo=remi
+sudo yum install -y zip unzip git composer java-1.8.0-openjdk mariadb-server php php-fpm php-mysqlnd php-gd php-curl php-mbstring php-dom php-opcache php-soap policycoreutils-python-utils --enablerepo=remi
 sudo systemctl enable nginx && sudo systemctl start nginx && sudo systemctl enable mariadb && sudo systemctl start mariadb && sudo systemctl enable php-fpm && sudo systemctl start php-fpm
 mysqladmin -u root password root
 sudo sed -i "$ a [mariadb] \nmax_allowed_packet=900M" /etc/my.cnf
@@ -15,6 +15,7 @@ sudo sed -i.bak s/'display_startup_errors = Off'/'display_startup_errors = On'/g
 sudo sed -i.bak s/'memory_limit = 128M'/'memory_limit = 900M'/g /etc/php.ini
 sudo sed -i.bak s/'user = apache'/'user = centos'/g /etc/php-fpm.d/www.conf
 sudo sed -i.bak s/'group = apache'/'group = centos'/g /etc/php-fpm.d/www.conf
+sudo sed -i.bak s/'\/run\/php-fpm\/www.sock'/'127.0.0.1:9000'/g /etc/php-fpm.d/www.conf
 sudo rm /etc/nginx/conf.d/default.conf
 sudo cp nginx.conf /etc/nginx/conf.d
 composer global require drush/drush
@@ -41,3 +42,6 @@ DROP DATABASE IF EXISTS test;
 DELETE FROM mysql.db WHERE Db='test' OR Db='test\\_%';
 FLUSH PRIVILEGES;
 EOF
+
+
+
